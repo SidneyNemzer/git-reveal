@@ -88,7 +88,7 @@ const checkSite = async (
       // We still don't know the repo, tell the user to search for it
       return {
         type: "try-search",
-        hostname: githubPagesDomainAnswer.data,
+        hostname: url.hostname,
         username,
       };
     }
@@ -165,6 +165,11 @@ const showResult = (tabId: number, result: Result) => {
       });
       break;
     case "try-search":
+      const user = result.username && `user:${result.username}`;
+      const search = [result.hostname, "filename:CNAME", user]
+        .filter(Boolean)
+        .join(" ");
+
       chrome.browserAction.setIcon({ tabId, path: "icon-orange.png" });
       chrome.browserAction.setPopup({
         tabId,
@@ -172,7 +177,9 @@ const showResult = (tabId: number, result: Result) => {
           message: "Could not determine repository",
           description:
             "This is probably a GitHub Pages site, however the exact repository could not be determined. Try searching for the hostname on GitHub.",
-          // TODO search URL
+          url: `https://github.com/search?q=${encodeURIComponent(
+            search
+          )}&type=code`,
         }),
       });
       break;
