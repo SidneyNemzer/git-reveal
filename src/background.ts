@@ -22,7 +22,10 @@ const checkSite = async (
   url: URL,
   hasGithubServerHeader: boolean
 ): Promise<Result> => {
-  if (url.hostname === "github.com") {
+  if (
+    url.hostname.endsWith("github.com") ||
+    url.hostname.endsWith("github.com.")
+  ) {
     // URLs on github.com will never host a github pages site.
     return { type: "nope" };
   }
