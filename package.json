@@ -2,11 +2,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec \"npm run build\" --ignore build --ext ts,json,html",
-    "build": "rm -rf build/ && cp -r assets/ build/ && tsc"
+    "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts --out-dir build"
   },
   "devDependencies": {
     "@types/chrome": "0.0.117",
     "nodemon": "^2.0.4",
+    "parcel-bundler": "^1.12.4",
     "typescript": "^3.9.5"
   }
 }
