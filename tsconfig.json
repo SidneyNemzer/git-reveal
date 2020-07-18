@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    "lib": ["ES6", "DOM"],
+    "lib": ["ES6", "DOM", "ES2017.Object"],
     "allowJs": false,
     "outDir": "./build",
     "strict": true,
@@ -10,6 +10,7 @@
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react"
   }
 }

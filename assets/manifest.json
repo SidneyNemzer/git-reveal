@@ -2,13 +2,13 @@
   "manifest_version": 2,
   "name": "Pages2Repo",
   "version": "1",
-  "permissions": ["webRequest", "https://*/*", "http://*/*"],
+  "permissions": ["webRequest", "https://*/*", "http://*/*", "storage"],
   "background": {
     "scripts": ["background.js"],
     "persistent": true
   },
   "browser_action": {
-    "default_popup": "checking.html",
+    "default_popup": "popup/popup.html",
     "default_icon": "icon-black.png"
   }
 }
