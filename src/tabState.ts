@@ -1,16 +1,14 @@
 import { debug } from "./debug";
 import * as cache from "./resultCache";
 import checkSite from "./checkSite";
+import { UnreachableCaseError } from "./utils";
+import { Result } from "./resultCache";
 
 export type TabState =
   | undefined
   | { type: "waiting-for-tab"; hasGithubHeader: boolean }
   | { type: "waiting-for-web-request" }
-  | { type: "success"; url: string }
-  | { type: "try-search"; hostname: string; username?: string }
-  | { type: "not-public"; url: string }
-  | { type: "nope" }
-  | { type: "error" };
+  | Result;
 
 type InternalTabState =
   | undefined
@@ -107,79 +105,29 @@ const onTabLoaded = async (
 
 // TODO reset icon when navigating
 
-const showResult = (tabId: number, result: TabState) => {
-  if (!result) {
-    // TODO a different type should probably be used to avoid this case
-    return;
-  }
-
-  // TODO set title
+const showResult = (tabId: number, result: Result) => {
   switch (result.type) {
     case "nope":
       break;
 
     case "success":
       chrome.browserAction.setIcon({ tabId, path: "icon-blue.png" });
-      // chrome.browserAction.setPopup({
-      //   tabId,
-      //   popup: getResultPath({
-      //     message: "This is a GitHub Pages site",
-      //     description: "Here's the repository URL:",
-      //     url: result.url,
-      //   }),
-      // });
       break;
 
     case "try-search":
-      // const user = result.username && `user:${result.username}`;
-      // const search = [result.hostname, "filename:CNAME", user]
-      //   .filter(Boolean)
-      //   .join(" ");
-
-      // const popup = {
-      //   tabId,
-      //   // popup: "result.html?message=test",
-      //   popup: getResultPath({
-      //     message: "GitHub Pages Detected",
-      //     description:
-      //       "This is probably a GitHub Pages site, however the exact repository could not be determined. Check the results of this search:",
-      //     url: `https://github.com/search?q=${encodeURIComponent(
-      //       search
-      //     )}&type=code`,
-      //   }),
-      // };
       chrome.browserAction.setIcon({ tabId, path: "icon-orange.png" });
-      // chrome.browserAction.setPopup(popup);
       break;
 
     case "not-public":
       chrome.browserAction.setIcon({ tabId, path: "icon-orange.png" });
-      // chrome.browserAction.setPopup({
-      //   tabId,
-      //   popup: getResultPath({
-      //     message: "Private repository",
-      //     description:
-      //       "This is probably a GitHub Pages site, but it looks like the repository is private. Here's the URL I think it is:",
-      //     url: result.url,
-      //   }),
-      // });
       break;
 
     case "error":
       chrome.browserAction.setIcon({ tabId, path: "icon-red.png" });
-      // chrome.browserAction.setPopup({
-      //   tabId,
-      //   popup: getResultPath({
-      //     message: "Something went wrong",
-      //     description:
-      //       "An error occured while checking this site :(\n\nPlease report this bug!",
-      //     url: "https://github.com/sidneynemzer/pages2repo/issues/new",
-      //   }),
-      // });
       break;
 
     default:
-      break;
+      throw new UnreachableCaseError(result);
   }
 };
 
