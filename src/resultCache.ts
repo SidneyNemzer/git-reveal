@@ -3,6 +3,7 @@ import { getFirstSegment } from "./utils";
 type CachedResult = Result & { createdAt: string; _type: "CachedResult" };
 
 const CACHE_TIME_MS = 60 * 60 * 1000; // one hour
+const CACHE_KEY_PREFIX = "result-";
 
 export type Result =
   | { type: "success"; url: string }
@@ -17,7 +18,7 @@ const getCacheKey = (url: URL) => {
   const urlPart = isGithubIo
     ? `${url.hostname}/${getFirstSegment(url.pathname)}`
     : url.hostname;
-  return `result-${urlPart}`;
+  return `${CACHE_KEY_PREFIX}${urlPart}`;
 };
 
 export const set = (url: URL, result: Result) => {
@@ -55,7 +56,7 @@ export const cleanup = () => {
     const keysToDelete = Object.entries(storage)
       .filter(([key, result]) => {
         // There could be other data in storage, skip keys that aren't results
-        if (!key.startsWith("result-")) {
+        if (!key.startsWith(CACHE_KEY_PREFIX)) {
           return false;
         }
 
