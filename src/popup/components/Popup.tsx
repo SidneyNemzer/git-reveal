@@ -31,8 +31,8 @@ const Popup: React.FC = () => {
     }
 
     if (!tab.url) {
-      console.error("no tab url");
-      setResult({ type: "error" });
+      // This is probably a restricted page like chrome://extensions
+      setResult({ type: "nope" });
       return;
     }
 
