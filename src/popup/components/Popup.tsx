@@ -3,11 +3,7 @@ import React, { useState } from "react";
 import * as cache from "../../resultCache";
 import useEffectAsync from "../../hooks/useEffectAsync";
 import { Result } from "../../resultCache";
-import Success from "./Success";
-import TrySearch from "./TrySearch";
-import Private from "./Private";
-import ErrorResult from "./Error";
-import { UnreachableCaseError } from "../../utils";
+import ResultView from "./ResultView";
 
 const getTab = () =>
   new Promise<chrome.tabs.Tab | undefined>((resolve) =>
@@ -46,27 +42,7 @@ const Popup: React.FC = () => {
     return <>loading...</>;
   }
 
-  switch (result.type) {
-    case "success":
-      return <Success url={result.url} />;
-
-    case "try-search":
-      return (
-        <TrySearch hostname={result.hostname} username={result.username} />
-      );
-
-    case "not-public":
-      return <Private url={result.url} />;
-
-    case "nope":
-      return <div>This is not a GitHub Pages site</div>;
-
-    case "error":
-      return <ErrorResult />;
-
-    default:
-      throw new UnreachableCaseError(result);
-  }
+  return <ResultView result={result} />;
 };
 
 export default Popup;
