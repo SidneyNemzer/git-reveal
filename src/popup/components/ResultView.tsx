@@ -2,7 +2,7 @@ import React from "react";
 import { Result } from "../../resultCache";
 import { UnreachableCaseError } from "../../utils";
 
-const ISSUES_URL = "https://github.com/sidneynemzer/pages2repo/issues/new";
+const ISSUES_URL = "https://github.com/sidneynemzer/git-reveal/issues/new";
 
 const ResultView: React.FC<{ result: Result }> = ({ result }) => {
   switch (result.type) {

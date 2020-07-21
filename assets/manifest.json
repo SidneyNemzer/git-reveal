@@ -1,14 +1,25 @@
 {
-  "manifest_version": 2,
-  "name": "Pages2Repo",
-  "version": "1",
+  "version": "1.0",
+  "name": "GIT REVEAL",
+  "description": "Find the GitHub repository for a site hosted on GitHub pages",
+
+  "icons": {
+    "128": "icon-black.png"
+  },
+
+  "homepage_url": "https://github.com/sidneynemzer/git-reveal",
+
   "permissions": ["webRequest", "https://*/*", "http://*/*", "storage"],
+
   "background": {
     "scripts": ["background.js"],
     "persistent": true
   },
+
   "browser_action": {
     "default_popup": "popup/popup.html",
     "default_icon": "icon-black.png"
-  }
+  },
+
+  "manifest_version": 2
 }
