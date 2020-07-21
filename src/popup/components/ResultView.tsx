@@ -50,7 +50,7 @@ const TrySearch: React.FC<{
         not be determined. Check the results of this search:
       </div>
       <div>
-        <a href={searchUrl}>{searchUrl}</a>
+        <NewTabLink url={searchUrl} />
       </div>
     </div>
   );
@@ -67,7 +67,7 @@ const ErrorResult: React.FC = () => {
         Please report this bug!
       </div>
       <div>
-        <a href={ISSUES_URL}>{ISSUES_URL}</a>
+        <NewTabLink url={ISSUES_URL} />
       </div>
     </div>
   );
@@ -80,7 +80,7 @@ const Success: React.FC<{
     <h1>This is a GitHub pages site</h1>
     <div>Here's the repository URL:</div>
     <div>
-      <a href={url}>{url}</a>
+      <NewTabLink url={url} />
     </div>
   </div>
 );
@@ -96,8 +96,14 @@ const Private: React.FC<{
         is private. I think this is the URL:
       </div>
       <div>
-        <a href={url}>{url}</a>
+        <NewTabLink url={url} />
       </div>
     </div>
   );
 };
+
+const NewTabLink: React.FC<{ url: string }> = ({ url }) => (
+  <a href={url} target="_blank">
+    {url}
+  </a>
+);
