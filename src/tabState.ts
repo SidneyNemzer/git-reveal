@@ -103,7 +103,8 @@ const onTabLoaded = async (
   }
 };
 
-// TODO reset icon when navigating
+// TODO reset icon when navigating?
+// Chrome resets it when the tab starts loading
 
 const showResult = (tabId: number, result: Result) => {
   switch (result.type) {
@@ -130,18 +131,3 @@ const showResult = (tabId: number, result: Result) => {
       throw new UnreachableCaseError(result);
   }
 };
-
-// const getResultPath = ({
-//   message,
-//   description,
-//   url,
-// }: {
-//   message: string;
-//   description: string;
-//   url?: string;
-// }) =>
-//   `result.html?message=${encodeURIComponent(
-//     message
-//   )}&description=${encodeURIComponent(description)}${
-//     url ? `&url=${encodeURIComponent(url)}` : ""
-//   }`;
