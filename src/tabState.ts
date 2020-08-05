@@ -50,7 +50,8 @@ export const onTabUpdated = async (
 
   if (!tab.url) {
     // This is probably a restricted page like chrome://extensions
-    debug("tab skipped because it doesn't have a URL", { tab });
+    // Definitely not a GitHub Pages site.
+    setTabState(tabId, "about:blank", { type: "nope" });
     return;
   }
 
