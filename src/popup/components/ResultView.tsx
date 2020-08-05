@@ -1,21 +1,26 @@
 import React from "react";
-import { Result } from "../../resultCache";
 import { UnreachableCaseError } from "../../utils";
+import { TabState } from "../../tabState";
 
 const ISSUES_URL = "https://github.com/sidneynemzer/git-reveal/issues/new";
 
-const ResultView: React.FC<{ result: Result }> = ({ result }) => {
-  switch (result.type) {
+const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
+  if (state === undefined || state.type === "waiting-for-tab") {
+    return <>loading...</>;
+  }
+
+  switch (state.type) {
     case "success":
-      return <Success url={result.url} />;
+      return <Success url={state.url} />;
+
+    case "service-worker":
+      return <ServiceWorker hostname={state.hostname} />;
 
     case "try-search":
-      return (
-        <TrySearch hostname={result.hostname} username={result.username} />
-      );
+      return <TrySearch hostname={state.hostname} username={state.username} />;
 
     case "not-public":
-      return <Private url={result.url} />;
+      return <Private url={state.url} />;
 
     case "nope":
       return <div>This is not a GitHub Pages site</div>;
@@ -24,11 +29,34 @@ const ResultView: React.FC<{ result: Result }> = ({ result }) => {
       return <ErrorResult />;
 
     default:
-      throw new UnreachableCaseError(result);
+      throw new UnreachableCaseError(state);
   }
 };
 
 export default ResultView;
+
+const ServiceWorker: React.FC<{
+  hostname: string;
+}> = ({ hostname }) => {
+  const search = `${hostname} filename:CNAME`;
+  const searchUrl = `https://github.com/search?q=${encodeURIComponent(
+    search
+  )}&type=code`;
+
+  return (
+    <div>
+      <h1>Can't check this site</h1>
+      <div>
+        This site seems to be using a service worker which interferes with
+        checking for a GitHub pages site. If you think this is a GitHub Pages
+        site, you can try searching GitHub for this domain:
+      </div>
+      <div>
+        <NewTabLink url={searchUrl} />
+      </div>
+    </div>
+  );
+};
 
 const TrySearch: React.FC<{
   hostname: string;

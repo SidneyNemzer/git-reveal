@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "nodemon --exec \"npm run build:dev\" --ignore build --ext ts,json,html",
+    "start": "nodemon --exec \"npm run build:dev\" --ignore build --ext ts,tsx,json,html",
     "build:dev": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-minify",
     "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build"
   },

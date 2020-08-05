@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-import * as cache from "../../resultCache";
+import { listen, getTabState, TabState } from "../../tabState";
 import useEffectAsync from "../../hooks/useEffectAsync";
-import { Result } from "../../resultCache";
 import ResultView from "./ResultView";
 
 const getTab = () =>
@@ -13,36 +12,22 @@ const getTab = () =>
   );
 
 const Popup: React.FC = () => {
-  // undefined = getting result from cache
-  // null = cache did not contain a result
   const [result, setResult] = useState<Result | null | undefined>();
 
   useEffectAsync(async () => {
     const tab = await getTab();
 
-    if (!tab) {
-      console.error("no tab");
+    if (!tab || !tab.id) {
+      console.error(`no tab${tab && !tab.id ? " id" : ""}`);
       setResult({ type: "error" });
       return;
     }
 
-    if (!tab.url) {
-      // This is probably a restricted page like chrome://extensions
-      setResult({ type: "nope" });
-      return;
-    }
-
-    const url = new URL(tab.url);
-
-    setResult(await cache.get(url));
-    return cache.listen(url, setResult);
+    setResult(await getTabState(tab.id));
+    return listen(tab.id, setResult);
   }, []);
 
-  if (result === undefined || result === null) {
-    return <>loading...</>;
-  }
-
-  return <ResultView result={result} />;
+  return <ResultView state={result} />;
 };
 
 export default Popup;

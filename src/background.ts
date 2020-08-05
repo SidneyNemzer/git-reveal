@@ -1,6 +1,8 @@
-import { onWebRequestCompleted, onTabUpdated } from "./tabState";
+import { onWebRequestCompleted, onTabUpdated, cleanup } from "./tabState";
 
 // TODO another page to show on installation, which asks user to refresh tabs
+
+cleanup();
 
 chrome.tabs.onUpdated.addListener(onTabUpdated);
 

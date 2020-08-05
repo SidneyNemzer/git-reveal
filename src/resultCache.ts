@@ -7,7 +7,12 @@ const CACHE_KEY_PREFIX = "result-";
 
 export type Result =
   | { type: "success"; url: string }
-  | { type: "try-search"; hostname: string; username?: string }
+  | { type: "service-worker"; hostname: string }
+  | {
+      type: "try-search";
+      hostname: string;
+      username?: string;
+    }
   | { type: "not-public"; url: string }
   | { type: "nope" }
   | { type: "error" };
@@ -22,27 +27,36 @@ const getCacheKey = (url: URL) => {
 };
 
 export const set = (url: URL, result: Result) => {
+  const key = getCacheKey(url);
   chrome.storage.local.set({
-    [getCacheKey(url)]: {
+    [key]: {
       createdAt: new Date().toString(),
       ...result,
     },
   });
+
   cleanup();
+
+  return key;
 };
 
 const isFresh = (result: CachedResult) =>
   new Date().getTime() - new Date(result.createdAt).getTime() < CACHE_TIME_MS;
 
-export const get = (url: URL) => {
+export const getByUrl = async (url: URL) => {
   const key = getCacheKey(url);
-  return new Promise<Result | null>((resolve) => {
+  const result = await getByKey(key);
+  return { key, result };
+};
+
+export const getByKey = (key: string) => {
+  return new Promise<Result | undefined>((resolve) => {
     chrome.storage.local.get(key, (value) => {
       const result: CachedResult | undefined = value[key];
       if (result && isFresh(result)) {
         return resolve(result);
       } else {
-        resolve(null);
+        resolve(undefined);
       }
     });
   });
@@ -52,6 +66,8 @@ export const get = (url: URL) => {
  * Removes expired results from the cache
  */
 export const cleanup = () => {
+  // Technically there might be other stuff in storage but we check the key
+  // below, so we can be just assume the value type here.
   chrome.storage.local.get((storage: { [key: string]: CachedResult }) => {
     const keysToDelete = Object.entries(storage)
       .filter(([key, result]) => {
@@ -66,34 +82,4 @@ export const cleanup = () => {
 
     chrome.storage.local.remove(keysToDelete);
   });
-};
-
-export const listen = (url: URL, onChange: (state: CachedResult) => void) => {
-  const handleChange = (
-    // chrome.storage.StorageChange is incorrect, it says the shape is
-    //
-    //   { newValue: ..., oldValue: ... }
-    //
-    // the shape is actually
-    //
-    //   { [key]: { newValue: ..., oldValue: ... } }
-    //
-    changes: any,
-    area: string
-  ) => {
-    if (area !== "local") {
-      return;
-    }
-
-    const value = changes[getCacheKey(url)]?.newValue;
-    if (value) {
-      onChange(value);
-    }
-  };
-
-  chrome.storage.onChanged.addListener(handleChange);
-
-  return () => {
-    chrome.storage.onChanged.removeListener(handleChange);
-  };
 };
