@@ -5,11 +5,22 @@ import { TabState } from "../../tabState";
 const ISSUES_URL = "https://github.com/sidneynemzer/git-reveal/issues/new";
 
 const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
-  if (state === undefined || state.type === "waiting-for-tab") {
-    return <>loading...</>;
+  if (state === undefined) {
+    return (
+      <>
+        <h1>Refresh the page to check this site</h1>
+        <div>
+          You probably installed or restarted the extension. GIT REVEAL needs to
+          be running while the page loads to check if it's a GitHub Pages site.
+        </div>
+      </>
+    );
   }
 
   switch (state.type) {
+    case "waiting-for-tab":
+      return <>loading...</>;
+
     case "success":
       return <Success url={state.url} />;
 
