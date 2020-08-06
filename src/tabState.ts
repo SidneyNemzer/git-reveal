@@ -57,6 +57,7 @@ export const onTabUpdated = async (
 
   const state = await getTabState(tabId);
   if (state?.type === "waiting-for-tab") {
+    debug("tab loaded, checking site");
     onTabLoaded(tabId, tab.url, state.hasGithubHeader);
   } else {
     // Tab completed but a request didn't complete yet. This happens if the
@@ -66,6 +67,9 @@ export const onTabUpdated = async (
       type: "service-worker",
       hostname: new URL(tab.url).hostname,
     });
+    debug(
+      "tab loaded without a web request, probably caused by a service worker"
+    );
   }
 };
 
