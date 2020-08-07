@@ -2,7 +2,9 @@
 
 A Chrome extension to find the GitHub repository for a site hosted on GitHub pages
 
-[**FAQ**](#faq) | [**CHANGELOG**](CHANGELOG.md)
+<!-- TODO: Install link -->
+
+[**CHANGELOG**](CHANGELOG.md)
 
 ## How does it work?
 
