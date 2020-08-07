@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec \"npm run build:dev\" --ignore build --ext ts,tsx,json,html",
-    "build:dev": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-minify",
-    "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build"
+    "build:dev": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-source-maps --no-minify",
+    "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-source-maps"
   },
   "devDependencies": {
     "@types/chrome": "0.0.117",
