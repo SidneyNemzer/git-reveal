@@ -12,7 +12,7 @@ const getTab = () =>
   );
 
 const Popup: React.FC = () => {
-  const [result, setResult] = useState<Result | null | undefined>();
+  const [result, setResult] = useState<TabState>();
 
   useEffectAsync(async () => {
     const tab = await getTab();
