@@ -16,8 +16,8 @@ type InternalTabState =
 
 const TAB_STATE_KEY_PREFIX = "tab-state-";
 
-export const onWebRequestCompleted = (
-  details: chrome.webRequest.WebResponseCacheDetails
+export const onHeadersReceived = (
+  details: chrome.webRequest.WebResponseHeadersDetails
 ) => {
   if (!details.tabId) {
     debug("not a tab", details);
@@ -44,7 +44,7 @@ export const onTabUpdated = async (
   changes: chrome.tabs.TabChangeInfo,
   tab: chrome.tabs.Tab
 ) => {
-  if (changes.status !== "complete") {
+  if (changes.status !== "loading") {
     return;
   }
 
@@ -58,7 +58,7 @@ export const onTabUpdated = async (
   const state = await getTabState(tabId);
   if (state?.type === "waiting-for-tab") {
     debug("tab loaded, checking site");
-    onTabLoaded(tabId, tab.url, state.hasGithubHeader);
+    onTabFinished(tabId, tab.url, state.hasGithubHeader);
   } else {
     // Tab completed but a request didn't complete yet. This happens if the
     // site is using a service worker. The web request will never fire,
@@ -73,7 +73,7 @@ export const onTabUpdated = async (
   }
 };
 
-const onTabLoaded = async (
+const onTabFinished = async (
   tabId: number,
   urlString: string,
   hasGithubHeader: boolean
