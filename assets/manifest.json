@@ -4,7 +4,7 @@
   "description": "Find the GitHub repository for a site hosted on GitHub pages",
 
   "icons": {
-    "128": "icon-black.png"
+    "128": "icon-blue.png"
   },
 
   "homepage_url": "https://github.com/sidneynemzer/git-reveal",
