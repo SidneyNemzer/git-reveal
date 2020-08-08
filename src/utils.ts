@@ -1,10 +1,8 @@
-export const getFirstSegment = (pathname: string) => {
-  const firstSlashIndex = pathname.indexOf("/");
-  if (firstSlashIndex < 0) {
-    return;
-  }
+const firstSegmentRegex = /\/?([^\/]+)/;
 
-  return pathname.slice(0, firstSlashIndex);
+export const getFirstSegment = (pathname: string) => {
+  const result = firstSegmentRegex.exec(pathname);
+  return result && result[1];
 };
 
 export const isNotUndefined = <T>(value: T | undefined): value is T => {
