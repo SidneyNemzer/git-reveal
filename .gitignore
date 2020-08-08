@@ -1,3 +1,9 @@
 node_modules
 build
 .cache
+
+# The assets are stored in Figma
+# https://www.figma.com/file/J6TBkUHgZ3gyQHAluggvLe/GIT-REVEAL
+images/*
+# This image is commited because it is displayed in the README
+!images/screenshot.png

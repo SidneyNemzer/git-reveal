@@ -6,6 +6,8 @@ A Chrome extension to find the GitHub repository for a site hosted on GitHub pag
 
 [**INSTALL**][install] | [**CHANGELOG**](CHANGELOG.md)
 
+![](images/screenshot.png)
+
 ## How do I use it?
 
 The extension icon turns BLUE when it detects a GitHub Pages site. Click on the icon to see the URL.
