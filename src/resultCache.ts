@@ -13,7 +13,7 @@ export type Result =
       hostname: string;
       username?: string;
     }
-  | { type: "not-public"; url: string }
+  | { type: "not-public"; urls: string[] }
   | { type: "nope" }
   | { type: "error" };
 

@@ -31,7 +31,7 @@ const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
       return <TrySearch hostname={state.hostname} username={state.username} />;
 
     case "not-public":
-      return <Private url={state.url} />;
+      return <Private urls={state.urls} />;
 
     case "nope":
       return <div>This is not a GitHub Pages site</div>;
@@ -125,18 +125,23 @@ const Success: React.FC<{
 );
 
 const Private: React.FC<{
-  url: string;
-}> = ({ url }) => {
+  urls: string[];
+}> = ({ urls }) => {
   return (
     <div>
       <h1>Private Repository</h1>
       <div>
         This is probably a GitHub Pages site, but it looks like the repository
-        is private. I think this is the URL:
+        is private.{" "}
+        {urls.length === 1
+          ? "I think this is the URL:"
+          : "I think one of these is the URL:"}
       </div>
-      <div>
-        <NewTabLink url={url} />
-      </div>
+      {urls.map((url) => (
+        <div>
+          <NewTabLink url={url} />
+        </div>
+      ))}
     </div>
   );
 };

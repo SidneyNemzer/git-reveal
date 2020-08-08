@@ -32,14 +32,43 @@ const checkSite = async (
 
     // For sites like "sidneynemzer.github.io/*", we can figure out the repo pretty easily
 
-    const repoUrl = `https://github.com/${domainParts[0]}/${getFirstSegment(
-      url.pathname
-    )}`;
+    const firstSegment = getFirstSegment(url.pathname);
+
+    if (firstSegment) {
+      const repoUrl = `https://github.com/${domainParts[0]}/${firstSegment}`;
+      const res = await fetch(repoUrl);
+
+      if (res.ok) {
+        return { type: "success", url: repoUrl };
+      }
+    }
+
+    const repoUrl = `https://github.com/${domainParts[0]}/${domainParts[0]}.github.io`;
     const res = await fetch(repoUrl);
-    return {
-      type: res.status === 200 ? "success" : "not-public",
-      url: repoUrl,
-    };
+
+    if (res.ok) {
+      // This could be incorrect if github.com/user/repo is private but
+      // github.com/user/user.github.io is public. That's pretty unlikely
+      // though.
+      return { type: "success", url: repoUrl };
+    }
+
+    if (firstSegment) {
+      return {
+        type: "not-public",
+        urls: [
+          `https://github.com/${domainParts[0]}/${domainParts[0]}.github.io`,
+          `https://github.com/${domainParts[0]}/${firstSegment}`,
+        ],
+      };
+    } else {
+      return {
+        type: "not-public",
+        urls: [
+          `https://github.com/${domainParts[0]}/${domainParts[0]}.github.io`,
+        ],
+      };
+    }
   } else if (hasGithubServerHeader) {
     // Pages with this header are probably a Github pages site, we can check
     // the DNS records to find the Github pages domain.
