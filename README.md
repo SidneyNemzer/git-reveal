@@ -10,7 +10,7 @@ A Chrome extension to find the GitHub repository for a site hosted on GitHub pag
 
 The extension icon turns BLUE when it detects a GitHub Pages site. Click on the icon to see the URL.
 
-You can try it out on some of the sites listed here: https://github.com/collections/github-pages-examples.
+Here's a site you can use to try it out: https://twitter.github.io/
 
 ## How does it work?
 
