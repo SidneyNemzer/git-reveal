@@ -2,9 +2,7 @@
 
 A Chrome extension to find the GitHub repository for a site hosted on GitHub pages
 
-<!-- TODO: Install link -->
-
-[**INSTALL**][install] | [**CHANGELOG**](CHANGELOG.md)
+_PENDING WEBSTORE APPROVAL_ | [**CHANGELOG**](CHANGELOG.md)
 
 ![](images/screenshot.png)
 
@@ -33,3 +31,15 @@ Because any domain could be a Github pages site.
 Insipred by [pages2repo by Frozenfire92](https://github.com/Frozenfire92/Pages2Repo)
 
 [install]: https://chrome.google.com/webstore/detail/git-reveal/momcopneegabfanhfajaoofjbjcdldek
+
+<!--
+
+DEVELOPER NOTES
+
+Test pages:
+
+- https://github.com/collections/github-pages-examples
+- http://blog.glavin.org
+- https://hossainkhan.com (https://github.com/amardeshbd/hossainkhan.com)
+
+-->
