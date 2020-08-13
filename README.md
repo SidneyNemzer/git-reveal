@@ -2,7 +2,7 @@
 
 A Chrome extension to find the GitHub repository for a site hosted on GitHub pages
 
-[**INSTALL**](install) | [**CHANGELOG**](CHANGELOG.md)
+[**INSTALL**][install] | [**CHANGELOG**](CHANGELOG.md)
 
 ![](images/screenshot.png)
 
