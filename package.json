@@ -2,15 +2,20 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec \"npm run build:dev\" --ignore build --ext ts,tsx,json,html",
-    "build:dev": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-source-maps --no-minify",
-    "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/background.ts src/popup/popup.html --out-dir build --no-source-maps"
+    "build:dev": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/popup/popup.html --out-dir build --no-source-maps --no-minify",
+    "build": "rm -rf build/ && cp -r assets/ build/ && tsc --noEmit && parcel build src/popup/popup.html --out-dir build --no-source-maps",
+    "test": "jest --watch",
+    "test:ci": "jest --collect-coverage"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.117",
+    "@types/chrome": "^0.0.180",
+    "@types/jest": "^27.4.1",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
+    "jest": "^27.5.1",
     "nodemon": "^2.0.4",
     "parcel-bundler": "^1.12.4",
+    "ts-jest": "^27.1.4",
     "typescript": "^3.9.5"
   },
   "dependencies": {

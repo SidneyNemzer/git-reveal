@@ -1,3 +1,3 @@
-interface Window {
-  DEBUG: boolean;
+namespace chrome.storage {
+  export var session: StorageArea;
 }

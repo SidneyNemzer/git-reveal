@@ -9,17 +9,12 @@
 
   "homepage_url": "https://github.com/sidneynemzer/git-reveal",
 
-  "permissions": ["webRequest", "https://*/*", "http://*/*", "storage"],
+  "permissions": ["storage", "activeTab"],
 
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-blue.png"
   },
 
-  "browser_action": {
-    "default_popup": "popup/popup.html",
-    "default_icon": "icon-black.png"
-  },
-
-  "manifest_version": 2
+  "manifest_version": 3
 }

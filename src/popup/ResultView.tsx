@@ -1,10 +1,10 @@
 import React from "react";
-import { UnreachableCaseError } from "../../utils";
-import { TabState } from "../../tabState";
+import { UnreachableCaseError } from "../utils";
+import { State } from "./state";
 
 const ISSUES_URL = "https://github.com/sidneynemzer/git-reveal/issues/new";
 
-const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
+const ResultView: React.FC<{ state: State }> = ({ state }) => {
   if (state === undefined) {
     return (
       <>
@@ -17,21 +17,24 @@ const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
     );
   }
 
+  // | { type: "no-url" }
+  // | { type: "error"; error?: Error };
+
   switch (state.type) {
-    case "waiting-for-tab":
+    case "loading":
       return <>loading...</>;
+
+    case "no-url":
+      return <div>This site doesn't have a URL so it can't be checked.</div>;
 
     case "success":
       return <Success url={state.url} />;
 
-    case "service-worker":
-      return <ServiceWorker hostname={state.hostname} />;
-
-    case "try-search":
+    case "has-header":
       return <TrySearch hostname={state.hostname} username={state.username} />;
 
-    case "not-public":
-      return <Private urls={state.urls} />;
+    case "private":
+      return <Private url={state.url} />;
 
     case "nope":
       return <div>This is not a GitHub Pages site</div>;
@@ -45,29 +48,6 @@ const ResultView: React.FC<{ state: TabState }> = ({ state }) => {
 };
 
 export default ResultView;
-
-const ServiceWorker: React.FC<{
-  hostname: string;
-}> = ({ hostname }) => {
-  const search = `${hostname} filename:CNAME`;
-  const searchUrl = `https://github.com/search?q=${encodeURIComponent(
-    search
-  )}&type=code`;
-
-  return (
-    <div>
-      <h1>Can't check this site</h1>
-      <div>
-        This site seems to be using a service worker which interferes with
-        checking for a GitHub pages site. If you think this is a GitHub Pages
-        site, you can try searching GitHub for this domain:
-      </div>
-      <div>
-        <NewTabLink url={searchUrl} />
-      </div>
-    </div>
-  );
-};
 
 const TrySearch: React.FC<{
   hostname: string;
@@ -125,23 +105,18 @@ const Success: React.FC<{
 );
 
 const Private: React.FC<{
-  urls: string[];
-}> = ({ urls }) => {
+  url: string;
+}> = ({ url }) => {
   return (
     <div>
       <h1>Private Repository</h1>
       <div>
         This is probably a GitHub Pages site, but it looks like the repository
-        is private.{" "}
-        {urls.length === 1
-          ? "I think this is the URL:"
-          : "I think one of these is the URL:"}
+        is private. I think this is the URL:
       </div>
-      {urls.map((url) => (
-        <div>
-          <NewTabLink url={url} />
-        </div>
-      ))}
+      <div>
+        <NewTabLink url={url} />
+      </div>
     </div>
   );
 };
