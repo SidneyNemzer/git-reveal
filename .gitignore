@@ -5,4 +5,4 @@ build
 # The assets are exported from Figma, see ASSETS.md
 images/*
 # This image is commited because it's displayed in the README
-!images/screenshot.png
+!images/readme-screenshot.png

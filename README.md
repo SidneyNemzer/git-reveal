@@ -4,27 +4,17 @@ A Chrome extension to find the GitHub repository for a site hosted on GitHub pag
 
 [**INSTALL**][install] | [**CHANGELOG**](CHANGELOG.md)
 
-![](images/screenshot.png)
+![](images/readme-screenshot.png)
 
 ## How do I use it?
 
-The extension icon turns BLUE when it detects a GitHub Pages site. Click on the icon to see the URL.
+Click the extension icon to check a website.
 
-Here's a site you can use to try it out: https://twitter.github.io/
+Here's a site you can use to try it out: https://sidneynemzer.github.io/casual-minesweeper/
 
-## How does it work?
+Websites using a custom domain (something other than "github.io") are harder to check, so the extension may not always correctly identify them.
 
-Here's a high-level overview of the algorithm:
-
-- The exact domain `github.io` and every domain under `github.com` are never a GitHub Pages site.
-- The repo for `sidneynemzer.github.io/stuff` will be `github.com/sidneynemzer/stuff` or `github.com/sidneynemzer/sidneynemzer.github.io`.
-- For other domains, if the document response has the header `Server: Github.com`, it is hosted by GitHub Pages.
-  - Check for a CNAME DNS record, which is used for custom subdomains like `mysite.example.com`. The CNAME will point to a domain like `sidneynemzer.github.io`, which gives us the username. Apex domains like `example.com` don't use a CNAME, so we won't know the username for those domains.
-  - The user is prompted to search GitHub for a CNAME file with the hostname. If the repo is public, it should be easy to find. The username can help narrow the search.
-
-## Why does it need access to "all URLS"?
-
-Because any domain could be a Github pages site.
+Here's a site that uses a custom domain you can try it on: https://enlighteningfacts.com
 
 ---
 
