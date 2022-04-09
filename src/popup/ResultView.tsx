@@ -17,9 +17,6 @@ const ResultView: React.FC<{ state: State }> = ({ state }) => {
     );
   }
 
-  // | { type: "no-url" }
-  // | { type: "error"; error?: Error };
-
   switch (state.type) {
     case "loading":
       return <>loading...</>;
