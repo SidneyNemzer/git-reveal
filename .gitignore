@@ -1,6 +1,6 @@
 node_modules
 build
-.cache
+.parcel-cache
 
 # The assets are stored in Figma
 # https://www.figma.com/file/J6TBkUHgZ3gyQHAluggvLe/GIT-REVEAL
