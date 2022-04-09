@@ -40,7 +40,7 @@ const ResultView: React.FC<{ state: State }> = ({ state }) => {
       return <div>This is not a GitHub Pages site</div>;
 
     case "error":
-      return <ErrorResult />;
+      return <ErrorResult error={state.error} />;
 
     default:
       throw new UnreachableCaseError(state);
@@ -66,7 +66,7 @@ const TrySearch: React.FC<{
       <h1>GitHub Pages Detected</h1>
       <div>
         This is probably a GitHub Pages site, however the exact repository could
-        not be determined. Check the results of this search:
+        not be determined. Try searching for the domain on GitHub:
       </div>
       <div>
         <NewTabLink url={searchUrl} />
@@ -75,15 +75,21 @@ const TrySearch: React.FC<{
   );
 };
 
-const ErrorResult: React.FC = () => {
+const ErrorResult: React.FC<{ error?: Error }> = ({ error }) => {
   return (
     <div>
       <h1>Something went wrong</h1>
       <div>
         An error occured while checking this site :(
         <br />
-        <br />
-        Please report this bug!
+        {error ? (
+          <pre>
+            <code>{error.stack}</code>
+          </pre>
+        ) : (
+          <code>(No error details captured)</code>
+        )}
+        Please report this bug here:
       </div>
       <div>
         <NewTabLink url={ISSUES_URL} />
